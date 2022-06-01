@@ -11,6 +11,9 @@ public class TestController {
 	@GetMapping("/temp/home")
 	public String tempHome() {
 		System.out.println("tempHome()");
+		// 파일리턴 기본 경로 : src/main/resources/static
+		// 리턴 경로 : /home.html
+		// 전체 경로 : src/main/resources/static/home.html
 		return "/home.html";
 	}
 
@@ -18,5 +21,15 @@ public class TestController {
 	public String tempimg() {
 		return "/abc.png";
 	}
+	
+	// yml 파일 주석 해제 
+	@GetMapping("/temp/jsp")
+	public String tempJsp() {
+		// prefix : /WEB-INF/views/
+		// suffx : .jsp 
+		// 전체 경로 : /WEB-INF/views/test/jsp
+		return "test";
+	}
+	
 
 }
