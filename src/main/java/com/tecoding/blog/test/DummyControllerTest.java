@@ -3,6 +3,9 @@ package com.tecoding.blog.test;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,12 +23,26 @@ public class DummyControllerTest {
 
 	@Autowired
 	private UserRepository userRepository;
-	
-	
-	// http://localhost:9090/blog/dummy/user
-	@GetMapping("user")
+
+	// http://localhost:9090/blog/dummy/users
+	@GetMapping("/users")
 	public List<User> list() {
-		return userRepository.findAll(); 
+		return userRepository.findAll();
+	}
+
+	// 한 페이지당 2 건의 데이터를 리턴
+	// http://localhost:9090/blog/dummy/user?page=0 (요청은 0부터 시작한다)
+	// List 타입에서 추후 Page 타입으로 변경
+	// 다시 Page 타입에서 List 로 변경하기 
+	@GetMapping("/user")
+	public List<User> pageList(@PageableDefault(size = 2, sort = "id", direction = Direction.DESC) Pageable pageable) {
+//		Page<User> pageUser = userRepository.findAll(pageable);
+//		if(pageUser.isFirst()) {
+//			
+//		}
+		// content 만 필요 하다면 
+		List<User> users = userRepository.findAll(pageable).getContent();
+		return users;
 	}
 
 	// {id} path-variable
@@ -46,10 +63,10 @@ public class DummyControllerTest {
 		User user = userRepository.findById(id).orElseThrow(() -> {
 			return new IllegalArgumentException("해당 유저는 없습니다. id : " + id);
 		});
-		// 요청 web browser 
-		// user 객체는 = 자바 object (변환 문자열) 
-		// 스프링부트 = MessageConverter 응답시에 Jackson 라이브러리를 호출해서 
-		// user 오브젝트가 json type 로 보이게 된다. 
+		// 요청 web browser
+		// user 객체는 = 자바 object (변환 문자열)
+		// 스프링부트 = MessageConverter 응답시에 Jackson 라이브러리를 호출해서
+		// user 오브젝트가 json type 로 보이게 된다.
 		return user;
 	}
 
