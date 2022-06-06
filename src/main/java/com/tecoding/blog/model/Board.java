@@ -56,8 +56,10 @@ public class Board {
 	// mappedBy 오즈젝트가 생성 될 때 가지고만 와달라고 부탁
 	// mappedBy 연관관계의 주인이 아니다 (난 FK가 아니다)
 	// DB 에 컬럼을 만들지 마시오 !!!
-	// mappedBy = "board"  board 는 Reply 테이블에 필드 이름이다. 
-	@OneToMany(mappedBy = "board" , fetch = FetchType.LAZY)
+	// mappedBy = "board"  board 는 Reply 테이블에 필드 이름이다.
+	// fetch = FetchType.LAZY 필요할 때 들고 와 !! (안적어도 기본 전략 LAZY) 
+//	@OneToMany(mappedBy = "board" , fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "board" , fetch = FetchType.EAGER)
 	private List<Reply> reply;
 	// @JoinColumn(name ="replyId") <-- 필요 없다. FK (테이블에 만들어 지면 안됨)
 	// 1정규화가 깨짐
