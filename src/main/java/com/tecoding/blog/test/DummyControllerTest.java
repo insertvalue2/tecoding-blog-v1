@@ -2,6 +2,9 @@ package com.tecoding.blog.test;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
@@ -9,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +27,48 @@ public class DummyControllerTest {
 
 	@Autowired
 	private UserRepository userRepository;
+	
 
+	// email, password
+	@Transactional // javax.transaction.Transactional
+	@PutMapping("/user/{id}")
+	public User updateUser(@PathVariable int id, @RequestBody User requestUser) {
+		//json 데이터를 요청 -> java Object(MessageConvert  의 Jackson 라이브러리가 변환해서 받아 준다)  
+		System.out.println("id : " + id);
+		System.out.println("password : " + requestUser.getPassword());
+		System.out.println("getEmail : " + requestUser.getEmail());
+
+		//		1. 
+//		requestUser.setId(id); 
+//		requestUser.setUsername("abc"); 
+//		userRepository.save(requestUser); // 실행하면 오류 !! (username : x) 
+		// 강제로 넣어서 실행 잘못된 처리가 된다. update save를 잘 사용하지 않는다. 
+		
+		// 만약 처리 한다면 먼저 찾아 와야 한다.
+		// 2. 
+//		User user = userRepository.findById(id).orElseThrow(() -> {
+//			return new IllegalIdentifierException("수정에 실패하였습니다.");
+//		});
+//		user.setPassword(requestUser.getPassword());
+//		user.setEmail(requestUser.getEmail());
+//		userRepository.save(user);
+	
+		// 3. 
+		User user = userRepository.findById(id).orElseThrow(() -> {
+			return new IllegalIdentifierException("수정에 실패하였습니다.");
+		});
+		user.setPassword(requestUser.getPassword());
+		user.setEmail(requestUser.getEmail());
+		
+		// save 호출하지 않았는데 변경되엉 있다. 
+		// 더티 체킹 
+		// update 를 할 때는 save 함수를 호출하지 않고 @Transactional 을 상용한다. 
+		
+		return null; 
+	}
+	
+	
+	
 	// http://localhost:9090/blog/dummy/users
 	@GetMapping("/users")
 	public List<User> list() {
