@@ -30,7 +30,8 @@ public class DummyControllerTest {
 	
 
 	// email, password
-	@Transactional // javax.transaction.Transactional
+	// 메서드 종료 후 commit 처리 
+	@Transactional // javax.transaction.Transactional (더티 체킹)
 	@PutMapping("/user/{id}")
 	public User updateUser(@PathVariable int id, @RequestBody User requestUser) {
 		//json 데이터를 요청 -> java Object(MessageConvert  의 Jackson 라이브러리가 변환해서 받아 준다)  
@@ -64,7 +65,7 @@ public class DummyControllerTest {
 		// 더티 체킹 
 		// update 를 할 때는 save 함수를 호출하지 않고 @Transactional 을 상용한다. 
 		
-		return null; 
+		return user; 
 	}
 	
 	
