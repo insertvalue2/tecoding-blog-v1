@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,17 @@ public class DummyControllerTest {
 	@Autowired
 	private UserRepository userRepository;
 	
-
+	@DeleteMapping("/user/{id}")
+	public String delete(@PathVariable int id) {
+		 
+		try {
+			userRepository.deleteById(id); // 없는 id를 호출하면 오류 발생
+		} catch (Exception e) {
+			return "없는 사용자 입니다";
+		}
+		return "삭제되었습니다 " + id; 
+	}
+	
 	// email, password
 	// 메서드 종료 후 commit 처리 
 	@Transactional // javax.transaction.Transactional (더티 체킹)
