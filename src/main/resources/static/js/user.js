@@ -33,7 +33,8 @@ let index = {
 			alert("회원가입이 완료 되었습니다");
 			location.href = "/blog";
 		}).fail(function(error) {
-			alert(JSON.stringify(error));		
+			alert("회원가입에 실패 하였습니다");
+			//alert(JSON.stringify(error));
 		});
 		// 1 
 		// 2  20초 이후 콜백(비동기적) 하다가 돌아 간다. 
