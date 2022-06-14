@@ -3,7 +3,8 @@
 <%@ include file="../layout/header.jsp" %>
 <!-- 부트스트랩 form 찾아서 가져 오기 -->
 <div class="container">
-	<form action="/action_page.php">
+	<!-- /blog/api/login : 사용안함 -->
+	<form >
 		
 		<div class="form-group">
 			<label for="username">username:</label>
@@ -19,8 +20,10 @@
 		<div class="form-group form-check">
 			<label class="form-check-label"> <input class="form-check-input" type="checkbox" /> Remember me </label>
 		</div>
-		<button type="submit" class="btn btn-primary">로그인</button>
 	</form>
+	<button type="button" id="btn-login" class="btn btn-primary">로그인</button>
 </div>
 
+<script src="/blog/js/user.js"></script>
 <%@ include file="../layout/footer.jsp" %>
+

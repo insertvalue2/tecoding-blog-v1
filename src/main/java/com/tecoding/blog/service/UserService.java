@@ -38,4 +38,12 @@ public class UserService {
 		
 		return 1;
 	}
+	
+	// select할 때 트랜잭션 시작, 종료시에 트랜잭션 종료(정합성) 
+	@Transactional(readOnly = true) 
+	public User login(User user) {
+		// repository에 가서 로그인을 위한 함수를 만들기 
+		return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+	}
+	
 }
