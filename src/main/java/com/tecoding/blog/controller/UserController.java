@@ -6,19 +6,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user")
+//@RequestMapping("/user") // 주소 변경  
 public class UserController {
-	
+
 	@GetMapping("/join_form")
 	public String joinForm() {
-		return "user/join_form"; 
+		return "user/join_form";
 	}
-	
+
 	@GetMapping("/login_form")
 	public String loginForm() {
-		return "user/login_form"; 
+		return "user/login_form";
 	}
-	
-	
-	
+
 }
