@@ -23,8 +23,9 @@ public class UserApiController {
 	private UserService userService;
 	
 	// 로그인시 2번째 방법 (스프링이 IoC(Bean등록) 할때 가지고 있다.   
-	@Autowired
-	private HttpSession session; 
+	/*
+	 * @Autowired private HttpSession session;
+	 */
 	
 	@PostMapping("/user")
 	public ResponseDto<Integer> save(@RequestBody User user) { // username, password, email 
@@ -34,18 +35,18 @@ public class UserApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK, result); // 자바 Object를 JSON 으로 변환 해서 리턴 
 	}
 	
-	@PostMapping("/user/login")
-//	public ResponseDto<Integer> login(@RequestBody User user, HttpSession session) {
-	public ResponseDto<Integer> login(@RequestBody User user) {
-		System.out.println("UserApicController : login 호출됨");
-		User principal = userService.login(user); // principal (접근주체) 
-		if(principal != null) {
-			session.setAttribute("principal", principal);
-			// header.jsp (추가) JSTL TAG LIB 이용  (jstl tutorial) 검색 
-			// https://www.tutorialspoint.com/jsp/jsp_standard_tag_library.htm
-		}
-		
-		return new ResponseDto<Integer>(HttpStatus.OK, 1); 
-	}
+//	@PostMapping("/user/login")
+////	public ResponseDto<Integer> login(@RequestBody User user, HttpSession session) {
+//	public ResponseDto<Integer> login(@RequestBody User user) {
+//		System.out.println("UserApicController : login 호출됨");
+//		User principal = userService.login(user); // principal (접근주체) 
+//		if(principal != null) {
+//			session.setAttribute("principal", principal);
+//			// header.jsp (추가) JSTL TAG LIB 이용  (jstl tutorial) 검색 
+//			// https://www.tutorialspoint.com/jsp/jsp_standard_tag_library.htm
+//		}
+//		
+//		return new ResponseDto<Integer>(HttpStatus.OK, 1); 
+//	}
 	
 }
