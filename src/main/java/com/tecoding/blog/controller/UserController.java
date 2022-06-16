@@ -5,16 +5,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+// 인증이 안된 사용자들이 출입할 수 있는 경로를 /auth/** 허용 (인증이 필요 없는 곳에는 auth)
+// 그냥 주소가 / 이면 index.jsp 허용 
+// static 이하  있는 /js/**, /css/**, /image/** 
+
+
 @Controller
 //@RequestMapping("/user") // 주소 변경  
 public class UserController {
 
-	@GetMapping("/join_form")
+	@GetMapping("/auth/join_form")
 	public String joinForm() {
 		return "user/join_form";
 	}
 
-	@GetMapping("/login_form")
+	@GetMapping("/auth/login_form")
 	public String loginForm() {
 		return "user/login_form";
 	}
