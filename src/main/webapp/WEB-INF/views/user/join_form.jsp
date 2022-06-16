@@ -32,5 +32,5 @@
 		<button id="btn-save" type="button" class="btn btn-primary">회원가입완료</button>
 	</form>
 </div>
-
+<script src="/js/user.js"></script>
 <%@ include file="../layout/footer.jsp" %>
