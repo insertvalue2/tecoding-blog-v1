@@ -14,21 +14,15 @@ import com.tecoding.blog.service.UserService;
 
 @RestController
 public class UserApiController {
-	
-	// DI 
-	@Autowired 
+
+	@Autowired
 	private UserService userService;
-	
+
 	@PostMapping("/auth/joinProc")
-	public ResponseDto<Integer> save(@RequestBody User user) { // username, password, email 
-		
-		
-		// 서비스로 레이어로 이동 
-		//user.setRole(RoleType.USER);
-		
+	public ResponseDto<Integer> save(@RequestBody User user) { // username, password, email
+		// 서비스로 레이어로 이동
+		// user.setRole(RoleType.USER);
 		int result = userService.saveUser(user);
-		return new ResponseDto<Integer>(HttpStatus.OK, result); // 자바 Object를 JSON 으로 변환 해서 리턴 
+		return new ResponseDto<Integer>(HttpStatus.OK, result); // 자바 Object를 JSON 으로 변환 해서 리턴
 	}
-	
-	
 }
