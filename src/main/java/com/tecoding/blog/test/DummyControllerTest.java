@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -92,14 +93,14 @@ public class DummyControllerTest {
 	// List 타입에서 추후 Page 타입으로 변경
 	// 다시 Page 타입에서 List 로 변경하기 
 	@GetMapping("/user")
-	public List<User> pageList(@PageableDefault(size = 2, sort = "id", direction = Direction.DESC) Pageable pageable) {
+	public Page<User> pageList(@PageableDefault(size = 2, sort = "id", direction = Direction.DESC) Pageable pageable) {
 //		Page<User> pageUser = userRepository.findAll(pageable);
 //		if(pageUser.isFirst()) {
 //			
 //		}
 		// content 만 필요 하다면 
 		List<User> users = userRepository.findAll(pageable).getContent();
-		return users;
+		return userRepository.findAll(pageable);
 	}
 
 	// {id} path-variable
