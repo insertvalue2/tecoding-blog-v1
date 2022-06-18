@@ -5,8 +5,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import com.tecoding.blog.model.Board;
@@ -31,4 +29,12 @@ public class BoardService  {
 	public Page<Board> getBoardList(Pageable pageable) {
 		return boardRepository.findAll(pageable);
 	}
+	
+	@Transactional
+	public Board boardDetail(int boardId) {
+		return boardRepository.findById(boardId).orElseThrow(() -> {
+			return new IllegalArgumentException("해당글을 찾을 수 없습니다");
+		});
+	}
+	
 }
