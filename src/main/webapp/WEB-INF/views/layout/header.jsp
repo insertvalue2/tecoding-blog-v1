@@ -40,10 +40,10 @@
 						</c:when>
 						<c:otherwise>
 							<li class="nav-item">
-								<a class="nav-link" href="/board/form">글쓰기</a>
+								<a class="nav-link" href="/board/save_form">글쓰기</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="/user/form">회원정보</a>
+								<a class="nav-link" href="/user/update_form">회원정보</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="/logout">로그아웃</a>

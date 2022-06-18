@@ -39,7 +39,7 @@ public class Board {
 	@Lob // 대용량 데이터
 	private String content; // 섬머노트 라이브러리 <html> 태그가 썩여서 디자인
 
-	@ColumnDefault("0") // int 형 , String 홑 따옴표
+	
 	private int count; // 조회수
 
 //	private int userId; // 누가 글을 작성했는지 알아야 한다.
