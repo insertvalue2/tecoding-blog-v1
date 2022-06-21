@@ -48,7 +48,7 @@ public class Board {
 	// Board 정보를 가지고 올때 무조건 들오 와 !  fetch = FetchType.EAGER 
 	@ManyToOne(fetch = FetchType.EAGER) 
 	@JoinColumn(name = "userId") // 연관관계를 맺어 주어야 한다.
-	private User userId;
+	private User user;
 
 	// 연관관계 주인 설명시 추가
 	// private Reply reply; <-- 하지만 한개의 게시글에 답글을 여러건이 될 수 있다.

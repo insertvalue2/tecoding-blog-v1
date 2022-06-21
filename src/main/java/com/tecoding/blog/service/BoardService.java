@@ -21,7 +21,7 @@ public class BoardService  {
 	public void write(Board board, User user) { // title, content 
 		
 		board.setCount(0);
-		board.setUserId(user);
+		board.setUser(user);
 		boardRepository.save(board);
 	}
 	
@@ -35,6 +35,11 @@ public class BoardService  {
 		return boardRepository.findById(boardId).orElseThrow(() -> {
 			return new IllegalArgumentException("해당글을 찾을 수 없습니다");
 		});
+	}
+	
+	@Transactional
+	public void deleteById(int boardId) {
+		boardRepository.deleteById(boardId);
 	}
 	
 }

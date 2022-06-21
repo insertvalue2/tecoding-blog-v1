@@ -3,6 +3,10 @@ let index = {
 		$("#btn-save").bind("click", () => { 
 			this.save(); 
 		});
+		
+		$("#btn-delete").bind("click", () => { 
+			this.deleteById();
+		});
 	},
 	save: function() {
 		let data = {
@@ -19,6 +23,20 @@ let index = {
 		}).done(function(data, textStatus, xhr) {
 			if(data.status)
 			alert("글쓰기가 완료 되었습니다");
+			location.href = "/";
+		}).fail(function(error) {
+			alert("글쓰기에 실패 하였습니다");
+		});
+	},
+	
+	deleteById: function() {
+		let id = 	$("#board-id").text(); 
+		$.ajax({
+			type: "DELETE", 
+			url: "/api/board/" + id
+		}).done(function(data, textStatus, xhr) {
+			if(data.status)
+			alert("삭제가 완료 되었습니다");
 			location.href = "/";
 		}).fail(function(error) {
 			alert("글쓰기에 실패 하였습니다");
