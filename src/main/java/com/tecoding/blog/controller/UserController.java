@@ -23,5 +23,10 @@ public class UserController {
 	public String loginForm() {
 		return "user/login_form";
 	}
+	
+	@GetMapping("/user/update_form")
+	public String updateForm() {
+		return "user/update_form";
+	}
 
 }
