@@ -6,6 +6,7 @@
 	<!-- /blog/api/login : 사용안함 -->
 	<!-- !! controller loginProc 를 만들지 않음(스프링 시큐리티가 가로채기 ) -->
 	<!--  form 반드시 key 값을 name 속성을 명시 해야 한다. -->
+	<!--  /auth/loginProc 주소는 마음대로 지정 가능 대신 필터에 사용한 주소와 일치 해야 한다. -->
 	<form action="/auth/loginProc" method="post">
 		
 		<div class="form-group">

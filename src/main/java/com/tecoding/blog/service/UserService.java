@@ -36,6 +36,7 @@ public class UserService {
 		return 1;
 	}
 
+ 
 	@Transactional
 	public void updateUser(User user) {
 		// 수정시에는 영속성 컨텍스트에 User 오브젝트를 영속화시키고, 영속된 오브젝트를 수정
@@ -50,6 +51,7 @@ public class UserService {
 		userEntity.setEmail(user.getEmail());
 		// 메서드 종료시 - 서비스 종료 - 트랜잭션 종료 - flush, commit 이 자동으로 된다.
 		// 영속화된 userEntity 객체의 변화가 감지되면 더티체킹이 되어 update 문을 날려 준다.
+	
 	}
 
 }
