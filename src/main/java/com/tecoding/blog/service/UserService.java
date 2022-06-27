@@ -45,13 +45,27 @@ public class UserService {
 		User userEntity = userRepository.findById(user.getId()).orElseThrow(() -> {
 			return new IllegalArgumentException("회원찾기실패");
 		});
-		String rawPassword = user.getPassword();
-		String hashPassword = encoder.encode(rawPassword);
-		userEntity.setPassword(hashPassword);
-		userEntity.setEmail(user.getEmail());
+		
+		
 		// 메서드 종료시 - 서비스 종료 - 트랜잭션 종료 - flush, commit 이 자동으로 된다.
 		// 영속화된 userEntity 객체의 변화가 감지되면 더티체킹이 되어 update 문을 날려 준다.
+		
+		// Validate 체크 => oauth 필드에 값이 없으면 수정 가능
+		if(userEntity.getOauth() == null || userEntity.getOauth().equals("")) {
+			String rawPassword = user.getPassword();
+			String hashPassword = encoder.encode(rawPassword);
+			userEntity.setPassword(hashPassword);
+			userEntity.setEmail(user.getEmail());
+		}
+		
+	}
 	
+	@Transactional(readOnly = true)
+	public User searchUser(String username) {
+		User user = userRepository.findByUsername(username).orElseGet(()->{
+			return new User();
+		});
+		return user;
 	}
 
 }

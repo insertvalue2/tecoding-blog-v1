@@ -31,7 +31,7 @@ public class User {
 	// 프로젝트에서 연결된 DB의 넘버링 전략을 따라 간다.  
 	private int id; // auto_increment (전략) 
 	
-	@Column(nullable = false, length = 30, unique = true)
+	@Column(nullable = false, length = 100, unique = true)
 	private String username; // 사용자 아이디 
 	
 	@Column(nullable = false, length = 100) // 12345 --> 해쉬 (비밀번호 암호화) 
@@ -44,6 +44,9 @@ public class User {
 	// DB 는 RoleType 데이터 타입이 없다. 
 	@Enumerated(EnumType.STRING) // DB String 타입이라고 알려 줘야 한다. 
 	private RoleType role; // Enum 권장 
+	
+	
+	private String oauth; // kakao, google
 	
 	@CreationTimestamp // 시간이 자동으로 입력이 된다. 
 	private Timestamp createDate; 
