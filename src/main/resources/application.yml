@@ -29,7 +29,7 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       use-new-id-generator-mappings: false
@@ -44,5 +44,5 @@ spring:
 
 
 tenco:
-  key: tenco1234      
+  key: 746aeb7573278b4cad1dd5a85339eea0a6f4b86cf131ed5009d66880e33ce88ca88edcbaaafa128aff3f941b4bfa0b05c6caff25b9ef40983e6923205277d6c6      
       
