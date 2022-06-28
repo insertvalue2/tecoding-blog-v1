@@ -30,6 +30,9 @@ public class ReplyControllerTest {
 	/**
 	 * board 를 호출했을 때 Reply에 포함된 board를 무시하는 것이고 
 	 * Reply 를 호출 했을 때는 무시하지 않는다. 
+	 * 
+	 * detail.jsp 에서 reply.board 를 호출하는 순간 무한 참조가 일어 난다.(stack overflow 발생)
+	 * 하지만 호출하지 않았기 때문에 오류 발생하지 않음 
 	 */
 	@GetMapping("/test/reply")
 	public List<Reply> getReply() {

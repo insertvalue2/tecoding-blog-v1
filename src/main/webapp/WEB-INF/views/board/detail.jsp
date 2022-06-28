@@ -30,8 +30,8 @@
 	
 	<div class="card">
 		<div>
-			<div class="card-body"><textArea class="form-control" rows="1"></textArea></div>
-			<div class="card-footer"><button class="btn btn-primary">등록 </button></div>
+			<div class="card-body"><textArea class="form-control" rows="1" id="reply-content"></textArea></div>
+			<div class="card-footer"><button type="button" class="btn btn-primary" id="btn-reply-save" >등록 </button></div>
 		</div>
 	</div>
 	<br/>
@@ -42,12 +42,12 @@
 	 <ul class="list-group" id="reply--box">
 	 	<c:forEach var="reply" items="${board.replys}">
 	 		<li class="list-group-item d-flex justify-content-between" id="reply--1">
-	 		<div>${reply.content}</div>
-	 		<div class="d-flex ">
-	 			<div class="font-italic">${reply.user.username} :&nbsp; tenCoding &nbsp;</div>
-	 			<button class="bage">삭제</button>
-	 		</div>
- 		</li>
+		 		<div>${reply.content}</div>
+		 		<div class="d-flex ">
+		 			<div class="font-italic">작성자 :&nbsp; ${reply.user.username} &nbsp;</div>
+		 			<button class="bage">삭제</button>
+		 		</div>
+ 			</li>
 	 	</c:forEach>
 	</ul>
 	 

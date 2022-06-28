@@ -8,14 +8,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.tecoding.blog.model.Board;
+import com.tecoding.blog.model.Reply;
 import com.tecoding.blog.model.User;
 import com.tecoding.blog.repository.BoardRepository;
+import com.tecoding.blog.repository.ReplyRepository;
 
 @Service
 public class BoardService  {
 	
 	@Autowired
 	private BoardRepository boardRepository;
+	
+	@Autowired
+	private ReplyRepository replyRepository;
 	
 	@Transactional
 	public void write(Board board, User user) { // title, content 
@@ -52,6 +57,16 @@ public class BoardService  {
 		board.setTitle(requestBoard.getTitle());
 		board.setContent(requestBoard.getContent());
 		// 해당 함수 종료시 Service 가 종료될 때 트랜잭션이 종료 된다. // 더티 체킹 - 자동 업데이트 (flush) 
+	}
+	
+	@Transactional
+	public void writeReply(User user, int boardId, Reply requestReply) { // title, content 
+		Board board =  boardRepository.findById(boardId).orElseThrow(() -> {
+			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글이 존재 하지 않습니다");
+		});
+		requestReply.setUser(user);
+		requestReply.setBoard(board);
+		replyRepository.save(requestReply);
 	}
 	
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tecoding.blog.auth.PrincipalDetail;
 import com.tecoding.blog.dto.ResponseDto;
 import com.tecoding.blog.model.Board;
+import com.tecoding.blog.model.Reply;
 import com.tecoding.blog.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,8 @@ public class BoardApiController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	
 	  
 	@PostMapping("/api/board")
 	public ResponseDto<Integer> save(@RequestBody Board board, 
@@ -44,6 +47,14 @@ public class BoardApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK, 1);
 	}
 	
+	
+	@PostMapping("/api/board/{boardId}/reply")
+	public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply, 
+			@AuthenticationPrincipal PrincipalDetail principal) { 
+		
+		boardService.writeReply(principal.getUser(), boardId, reply);
+		return new ResponseDto<Integer>(HttpStatus.OK, 1); 
+	}
 	
 }
 

@@ -11,6 +11,10 @@ let index = {
 		$("#btn-update").bind("click", () => { 
 			this.update(); 
 		});
+		
+		$("#btn-reply-save").bind("click", () => { 
+			this.replySave(); 
+		});
 	},
 	save: function() {
 		let data = {
@@ -52,7 +56,7 @@ let index = {
 		
 		let data = {
 			title: $("#title").val(), 
-			content: $("#content").val(),
+			content: $("#reply-content").val(),
 		};
 		
 		$.ajax({
@@ -72,7 +76,32 @@ let index = {
 		}).fail(function(error) {
 			alert("글쓰기에 실패 하였습니다");
 		});
-	}
+	}, 
+	
+	replySave: function() {
+		let boardId = $("#board-id").text();
+		
+		let data = {
+			content: $("#reply-content").val(),
+		};
+		
+		// 백틱 (자바스크립트 변수값이 문자열 안에 들어 온다)
+		$.ajax({
+			type: "POST", 
+			url: `/api/board/${boardId}/reply`,
+			data: JSON.stringify(data),  
+			contentType: "application/json; charset=utf-8", 
+			dataType: "json", 
+		}).done(function(res) {
+			if(res.status) {
+				alert("댓글 작성을 완료 하였습니다")
+				location.href = `/board/${boardId}`;
+			}
+			
+		}).fail(function(error) {
+			alert("글쓰기에 실패 하였습니다");
+		});
+	},
 }
 
 index.init();
