@@ -39,30 +39,16 @@
 	<div class="card">
 		<div class="card-header">댓글 리스트</div>
 	 </div>
-	 <ul class="list-group" id="comment--box">
-	 	<!-- 부트스트랩에서 flex 로 변경 할려면 d-flex 사용 -->
-	 	<li class="list-group-item d-flex justify-content-between" id="comment--1">
-	 		<div>댓글 내용</div>
+	 <ul class="list-group" id="reply--box">
+	 	<c:forEach var="reply" items="${board.replys}">
+	 		<li class="list-group-item d-flex justify-content-between" id="reply--1">
+	 		<div>${reply.content}</div>
 	 		<div class="d-flex ">
-	 			<div class="font-italic">작성자 :&nbsp; tenCoding &nbsp;</div>
+	 			<div class="font-italic">${reply.user.username} :&nbsp; tenCoding &nbsp;</div>
 	 			<button class="bage">삭제</button>
 	 		</div>
  		</li>
- 		<!-- 반복 처리  -->
- 		<li class="list-group-item d-flex justify-content-between">
-	 		<div>댓글 내용</div>
-	 		<div class="d-flex ">
-	 			<div class="font-italic">작성자 :&nbsp; tenCoding &nbsp;</div>
-	 			<button class="bage">삭제</button>
-	 		</div>
- 		</li>
- 		<li class="list-group-item d-flex justify-content-between">
-	 		<div>댓글 내용</div>
-	 		<div class="d-flex ">
-	 			<div class="font-italic">작성자 :&nbsp; tenCoding &nbsp;</div>
-	 			<button class="bage">삭제</button>
-	 		</div>
- 		</li>
+	 	</c:forEach>
 	</ul>
 	 
 </div>

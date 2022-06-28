@@ -45,7 +45,6 @@ public class Reply {
 	@JoinColumn(name = "userId") // userId <-- reply 테이블에 컬럼 명이 된다.
 	private User user;
 
-	
 
 	@CreationTimestamp
 	private Timestamp createDate;
