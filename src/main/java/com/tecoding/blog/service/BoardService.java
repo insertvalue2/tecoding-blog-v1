@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.tecoding.blog.dto.ReplySaveRequestDto;
 import com.tecoding.blog.model.Board;
-import com.tecoding.blog.model.Reply;
 import com.tecoding.blog.model.User;
 import com.tecoding.blog.repository.BoardRepository;
 import com.tecoding.blog.repository.ReplyRepository;
@@ -59,14 +59,25 @@ public class BoardService  {
 		// 해당 함수 종료시 Service 가 종료될 때 트랜잭션이 종료 된다. // 더티 체킹 - 자동 업데이트 (flush) 
 	}
 	
+//	@Transactional
+//	public void writeReply(User user, int boardId, Reply requestReply) { // title, content 
+//		Board board =  boardRepository.findById(boardId).orElseThrow(() -> {
+//			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글이 존재 하지 않습니다");
+//		});
+//		requestReply.setUser(user);
+//		requestReply.setBoard(board);
+//		replyRepository.save(requestReply);
+//	}
+//	
 	@Transactional
-	public void writeReply(User user, int boardId, Reply requestReply) { // title, content 
-		Board board =  boardRepository.findById(boardId).orElseThrow(() -> {
-			return new IllegalArgumentException("댓글 쓰기 실패 : 게시글이 존재 하지 않습니다");
-		});
-		requestReply.setUser(user);
-		requestReply.setBoard(board);
-		replyRepository.save(requestReply);
+	public void writeReply(ReplySaveRequestDto replySaveRequestDto) {
+		int result = replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(), replySaveRequestDto.getContent());
+		System.out.println("BoardService : "+result);
+	}
+	
+	@Transactional
+	public void deleteReplyById(int replyId) {
+		replyRepository.deleteById(replyId);
 	}
 	
 }
