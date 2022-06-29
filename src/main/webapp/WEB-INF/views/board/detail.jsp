@@ -41,12 +41,12 @@
 	 </div>
 	 <ul class="list-group" id="reply--box">
 	 	<c:forEach var="reply" items="${board.replys}">
-	 		<li class="list-group-item d-flex justify-content-between" id="reply--1">
+	 		<li class="list-group-item d-flex justify-content-between" id="reply--${reply.id}" >
 		 		<div>${reply.content}</div>
 		 		<div class="d-flex ">
 		 			<div class="font-italic">작성자 :&nbsp; ${reply.user.username} &nbsp;</div>
 		 			<c:if test="${reply.user.id eq principal.user.id}">
-							<button onClick="index.replyDelete(${board.id}, ${reply.id})" class="badge">삭제</button>
+							<button  onClick="index.replyDelete(${board.id}, ${reply.id})" class="badge badge-danger">삭제</button>
 					</c:if>
 		 		</div>
  			</li>

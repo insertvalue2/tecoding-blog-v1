@@ -29,27 +29,22 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Reply {
 
-	@Id // Primary key
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Column(nullable = false, length = 200)
 	private String content;
 
-	// 누가 어느 게시글에 있는 답편인지 연관관계가 필요하다.
-	// 하나의 게시글에는 여러개의 답변이 있을 수 있다.
+	@ManyToOne // 여러개의 댓글은 하나의 게시글에 존재할 수 있다.
 	@JoinColumn(name = "boardId")
-	@ManyToOne // 여러개의 답편은 하나의 게시글에 존재할 수 있다.
-	@JsonIgnoreProperties({"replys", "user", "content", "userId", "id"})
+	@JsonIgnoreProperties({"replys", "userId"})
 	private Board board;
- 
-	// 하나더 필요 (답변을 누가 적었는지 알아야 한다.)
-	// Replay <--> User (여러개의 답변은 하나의 유저가 사용할 수 있다)
-	@ManyToOne
-	@JoinColumn(name = "userId") // userId <-- reply 테이블에 컬럼 명이 된다.
-	@JsonIgnoreProperties({"password", "id", "email", "role"})
-	private User user;
 
+	@ManyToOne
+	@JoinColumn(name = "userId") // <---- Reply 테이블에 컬럼명이 된다.
+	@JsonIgnoreProperties({"password", "role", "email", "oauth"})
+	private User user;
 
 	@CreationTimestamp
 	private Timestamp createDate;

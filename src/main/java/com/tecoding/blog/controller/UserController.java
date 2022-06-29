@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tecoding.blog.model.KakaoProfile;
+import com.tecoding.blog.model.KakaoProfile.KakaoAccount;
 import com.tecoding.blog.model.OAuthToken;
 import com.tecoding.blog.model.User;
 import com.tecoding.blog.service.UserService;
@@ -34,15 +35,14 @@ import com.tecoding.blog.service.UserService;
 public class UserController {
 
 	@Value("${tenco.key}")
-	private String toncoKey;
-	
+	private String tencoKey;
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
+
 	@Autowired
 	private UserService userService;
-	
-	
+
 	@GetMapping("/auth/join_form")
 	public String joinForm() {
 		return "user/join_form";
@@ -62,112 +62,104 @@ public class UserController {
 	}
 
 	@GetMapping("/auth/kakao/callback")
-	//@ResponseBody // data 를 리턴하는 함수
+	// @ResponseBody // data 를 리턴하는 함수
 	public String kakaoCallback(@RequestParam String code) {
-		// POST방식으로 key=value 데이터를 요청 (카카오쪽으로)
+		// HttpsURLConnect ...
 		// Retrofit2
 		// OkHttp
 		// RestTemplate
-		
 		RestTemplate rt = new RestTemplate();
-		
-		// HttpHeader 오브젝트 생성
+
+		// http 메세지 -> POST
+
+		// 시작줄
+		// http header
+		// http boady
+
+		// header 생성
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-		
-		// HttpBody 오브젝트 생성
+
+		// body 생성
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
-		params.add("client_id", "66a1daa34b14cd629328bfd29d6b3063");
+		params.add("client_id", "141b8184eb9a5187f47d408f956643c0");
 		params.add("redirect_uri", "http://localhost:9090/auth/kakao/callback");
 		params.add("code", code);
-		
-		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기
-		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = 
-				new HttpEntity<>(params, headers);
-		
-		// Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-		ResponseEntity<String> response = rt.exchange(
-				"https://kauth.kakao.com/oauth/token",
-				HttpMethod.POST,
-				kakaoTokenRequest,
-				String.class
-		);
-		
-		// Gson, Json Simple, ObjectMapper
+
+		// 헤더와 바디를 하나의 오브젝트로 담아야 한다.
+		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest = new HttpEntity<>(params, headers);
+
+		// Http 요청 - post 방식 - 응답
+		ResponseEntity<String> response = rt.exchange("https://kauth.kakao.com/oauth/token", HttpMethod.POST,
+				kakaoTokenRequest, String.class);
+
+		// response -> Object 타입으로 변환 (Gson, Json Simple, ObjectMapper)
+		// 파싱 처리
+		OAuthToken authToken = null;
 		ObjectMapper objectMapper = new ObjectMapper();
-		OAuthToken oauthToken = null;
+		// String ---> Object (클래스 생성)
 		try {
-			oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
+			authToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
+
 		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		System.out.println("카카오 엑세스 토큰 : "+oauthToken.getAccessToken());
-		
+
+		// 액세스 토큰 사용
 		RestTemplate rt2 = new RestTemplate();
-		
-		// HttpHeader 오브젝트 생성
+
 		HttpHeaders headers2 = new HttpHeaders();
-		//반드시 한칸 띄어 놓아야 된다. (Bearer ) !!  
-		headers2.add("Authorization", "Bearer "+oauthToken.getAccessToken());
+		// 주의 Bearer 다음에 무조건 한 칸 띄우기 !!!
+		headers2.add("Authorization", "Bearer " + authToken.getAccessToken());
 		headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-		
-		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기
-		HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest2 = 
-				new HttpEntity<>(headers2);
-//		
-//		// Http 요청하기 - Post방식으로 - 그리고 response 변수의 응답 받음.
-		ResponseEntity<String> response2 = rt2.exchange(
-				"https://kapi.kakao.com/v2/user/me",
-				HttpMethod.POST,
-				kakaoProfileRequest2,
-				String.class
-		);
-		System.out.println(response2.getBody());
-		
-		ObjectMapper objectMapper2 = new ObjectMapper();
-		KakaoProfile kakaoProfile = null;
 
-		try {
-			kakaoProfile = objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-//		
-		// User 오브젝트 : username, password, email
-		System.out.println("카카오 아이디(번호) : "+kakaoProfile.getId());
-		System.out.println("카카오 이메일 : "+kakaoProfile.getKakaoAccount().getEmail());
-		
-		System.out.println("블로그서버 유저네임 : "+kakaoProfile.getKakaoAccount().getEmail()+"_"+kakaoProfile.getId());
-		System.out.println("블로그서버 이메일 : "+kakaoProfile.getKakaoAccount().getEmail());
-		// UUID란 -> 중복되지 않는 어떤 특정 값을 만들어내는 알고리즘
-		System.out.println("블로그서버 패스워드 : "+ toncoKey);
-		
-		User kakaoUser = User.builder()
-				.username(kakaoProfile.getKakaoAccount().getEmail()+"_"+kakaoProfile.getId())
-				.password(toncoKey)
-				.email(kakaoProfile.getKakaoAccount().getEmail())
-				.oauth("kakao")
-				.build();
-		
-		// 가입자 혹은 비가입자 체크 해서 처리
-		User originUser = userService.searchUser(kakaoUser.getUsername());
+		// 바디
+		HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(headers2);
 
-		if(originUser.getUsername() == null) {
-			System.out.println("기존 회원이 아니기에 자동 회원가입을 진행합니다");
-			userService.saveUser(kakaoUser);
+		ResponseEntity<KakaoProfile> kakaoProfileResponse = rt2.exchange("https://kapi.kakao.com/v2/user/me",
+				HttpMethod.POST, kakaoProfileRequest, KakaoProfile.class);
+
+		// 소셜로인 처리 -->
+		// 사용자가 로그인 했을 경우 최초 사용자라면
+		// -> 회원가입 처리 한다.
+		// -> 한번이라도 가입 진행이 된 사용자면 로그인 처리를 해주면 된다.
+		// -> 만약 회원 가입시 필요한 정보 더 있어야 된다면 추가로 사용자 한테 정보를 받아서 가입 진행 처리를
+		// 해야 한다.
+
+		KakaoAccount account = kakaoProfileResponse.getBody().getKakaoAccount();
+
+		System.out.println("카카오 아이디 : " + kakaoProfileResponse.getBody().getId());
+		System.out.println("카카오 이메일 : " + account.getEmail());
+
+		System.out.println("블로그에서 사용 될 유저네임 " + account.getEmail() + "_" + kakaoProfileResponse.getBody().getId());
+		System.out.println("블로그에서 사용 될 이메일 " + account.getEmail());
+
+		User kakaUser = User.builder().username(account.getEmail() + "_" + kakaoProfileResponse.getBody().getId())
+				.password(tencoKey).email(account.getEmail()).oauth("kakao").build();
+
+		System.out.println(kakaUser);
+
+		// 1. UserService 호출해서 저장 진행
+		// 단, 소셜 로그인 요청자가 이미 가입된 유저라면 저장(x)
+
+		User originUser = userService.searchUser(kakaUser.getUsername());
+
+		if (originUser.getUsername() == null) {
+			System.out.println("신규 회원이 아니기 때문에 회원가입을 진행");
+			userService.saveUser(kakaUser);
 		}
-		
-		System.out.println("자동 로그인을 진행합니다.");
-		// 로그인 처리
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(kakaoUser.getUsername(), toncoKey));
+
+		// 자동 로그인 처리 -> 시큐리티 세션에다가 강제 저장
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(kakaUser.getUsername(), tencoKey));
+
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
+
 		return "redirect:/";
 	}
 

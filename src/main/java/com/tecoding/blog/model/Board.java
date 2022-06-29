@@ -34,27 +34,34 @@ import lombok.NoArgsConstructor;
 public class Board {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) // auth_increment
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@Column(nullable = false, length = 100)
 	private String title;
-
 	@Lob // 대용량 데이터
-	private String content; // 섬머노트 라이브러리 <html> 태그가 썩여서 디자인
-	
+	private String content;
+	@ColumnDefault("0") // int // String " '안녕' "
 	private int count; // 조회수
- 
-	@ManyToOne(fetch = FetchType.EAGER) 
-	@JoinColumn(name = "userId") // 연관관계를 맺어 주어야 한다.
+	
+	// 여러개의 게시글은 하나의 유저를 가진다.
+	// Many == Board, One == User
+	@ManyToOne(fetch = FetchType.EAGER) // Board select 한번에 데이터를 가져와  
+	@JoinColumn(name = "userId")
 	private User user;
-
-	// mappedBy 연관 관계의 주인이 아니다(테이블에 FK를 만들지 마!) 
-	@OneToMany(mappedBy = "board" , fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	@JsonIgnoreProperties({"board"}) //Reply 안에 있는 board getter를 무시(호출안됨)
-	@OrderBy("id desc")
-	private List<Reply> replys;
-
+	
+	// 댓글정보 
+	// 하나에 게시글에 여러개의 댓글이 있을 수 있다.
+	// one = board, many = reply 
+	// mappedBy = "board" board는 reply 테이블에 필드 이름이다. 
+	// mappedBy 는 연관 관계에 주인이 아니다 (FK)  
+	// DB 에 컬럼을 만들지 마시오 
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) 
+	@JsonIgnoreProperties({"board", "content"}) // Reply 안에 있는 board getter 를 무시해라(호출이 안됨) 
+	@OrderBy("id DESC")
+	private List<Reply> replys; 
+	
+		
 	@CreationTimestamp
 	private Timestamp createDate;
 

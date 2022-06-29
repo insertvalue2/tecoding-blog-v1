@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tecoding.blog.auth.PrincipalDetail;
-import com.tecoding.blog.dto.ReplySaveRequestDto;
 import com.tecoding.blog.dto.ResponseDto;
 import com.tecoding.blog.model.Board;
+import com.tecoding.blog.model.Reply;
 import com.tecoding.blog.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,22 +44,23 @@ public class BoardApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK, 1);
 	}
 
-//	@PostMapping("/api/board/{boardId}/reply")
-//	public ResponseDto<Integer> replySave(@PathVariable int boardId, @RequestBody Reply reply,
-//			@AuthenticationPrincipal PrincipalDetail principal) {
-//
-//		boardService.writeReply(principal.getUser(), boardId, reply);
-//		return new ResponseDto<Integer>(HttpStatus.OK, 1);
-//	}
+	@PostMapping("/api/board/{boardId}/reply")
+	public ResponseDto<Reply> replySave(@PathVariable int boardId,
+			@RequestBody Reply reply, @AuthenticationPrincipal PrincipalDetail pricipalDetail) {
+		
+		// 서비스 데이터 처리 
+		Reply replyEntity  = boardService.writeReply(pricipalDetail.getUser(), boardId, reply);
+		return new ResponseDto<Reply>(HttpStatus.OK, replyEntity);
+	}
 
 	// 데이터 받을 때 컨트롤러에서 dto를 만들어서 받는게 좋다.
 	// dto 사용하지 않은 이유는!!
-	@PostMapping("/api/board/{boardId}/reply")
-	public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
-		boardService.writeReply(replySaveRequestDto);
-		return new ResponseDto<Integer>(HttpStatus.OK, 1);
-	}
-	
+//	@PostMapping("/api/board/{boardId}/reply")
+//	public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
+//		boardService.writeReply(replySaveRequestDto);
+//		return new ResponseDto<Integer>(HttpStatus.OK, 1);
+//	}
+//	
 	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
 	public ResponseDto<Integer> deleteReply(@PathVariable int replyId) {
 		boardService.deleteReplyById(replyId);

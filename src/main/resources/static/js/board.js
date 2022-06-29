@@ -79,28 +79,28 @@ let index = {
 	}, 
 	
 	replySave: function() {
-		let boardId = $("#board-id").text();
-		
+		// 데이터 가져 오기 (boardId : 해당 게시글에 아이디)
 		let data = {
-			content: $("#reply-content").val(),
-		};
+			boardId: $("#board-id").text(), 
+			content: $("#reply-content").val()
+		}
 		
-		// 백틱 (자바스크립트 변수값이 문자열 안에 들어 온다)
+		// `` 백틱 (자바스크립트 변수를 문자열 안에 넣어서 사용할 수 있다) 
 		$.ajax({
-			type: "POST", 
-			url: `/api/board/${boardId}/reply`,
-			data: JSON.stringify(data),  
+			type: "POST",
+			url: `/api/board/${data.boardId}/reply`, 
+			data: JSON.stringify(data),
 			contentType: "application/json; charset=utf-8", 
-			dataType: "json", 
-		}).done(function(res) {
-			if(res.status) {
-				alert("댓글 작성을 완료 하였습니다")
-				location.href = `/board/${boardId}`;
-			}
-			
-		}).fail(function(error) {
-			alert("글쓰기에 실패 하였습니다");
-		});
+			dataType: "json" 
+		})
+		.done(function(response) {
+			if(response.status) {
+				addReplyElement(response.data);
+			} 
+		})
+		.fail(function(error) {
+			alert("댓글 작성에 실패하였습니다.");
+		}); 
 	},
 	
 	replyDelete : function(boardId, replyId){
@@ -114,7 +114,19 @@ let index = {
 			}).fail(function(error){
 				alert(JSON.stringify(error));
 			}); 
-		},
+		}
+}
+
+function addReplyElement(reply) {
+	let childElement = `<li class="list-group-item d-flex justify-content-between" id="reply--${reply.id}" >
+				<div>${reply.content}</div>
+				<div class="d-flex">
+					<div>작성자 : ${reply.user.username}&nbsp;&nbsp;</div>  
+					<button class="badge badge-danger">삭제</button>
+				</div>
+			</li>`;
+	$("#reply--box").prepend(childElement);
+	$("#reply-content").val("");		
 }
 
 index.init();
