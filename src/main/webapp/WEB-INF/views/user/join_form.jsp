@@ -24,11 +24,6 @@
 			<input type="email" name="email" class="form-control" placeholder="Enter email" id="email" />
 		</div>
 	
-		
-		<div class="form-group form-check">
-			<label class="form-check-label"> 
-			<input class="form-check-input" name="remember" type="checkbox" /> Remember me </label>
-		</div>
 		<button id="btn-save" type="button" class="btn btn-primary">회원가입완료</button>
 	</form>
 </div>
