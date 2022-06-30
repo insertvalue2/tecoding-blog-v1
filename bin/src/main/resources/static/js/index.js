@@ -2,7 +2,7 @@ let index = {
 	 
 	init: function() {
 		$("#search--title").bind("click", () => { 
-			//this.searchTitle(); 
+			this.searchTitle(); 
 		});
 		
 		$("#search--name").bind("click", () => { 
