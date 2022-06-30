@@ -1,5 +1,7 @@
 package com.tecoding.blog.service;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +83,11 @@ public class BoardService  {
 	@Transactional
 	public void deleteReplyById(int replyId) {
 		replyRepository.deleteById(replyId);
+	}
+	
+	@Transactional
+	public Page<Board> searchBoard(String searchValue, Pageable pageable) {
+		return boardRepository.findByTitleContaining(searchValue, pageable); 
 	}
 	
 }
