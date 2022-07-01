@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable() // csrf 토큰 비활성화 (테스트시만 적용)
-				.authorizeHttpRequests().antMatchers("/dummy/**", "/auth/**", "/", "/js/**", "/css/**", "/image/**")
+				.authorizeHttpRequests().antMatchers("/dummy/**", "/auth/**", "/", "/js/**", "/css/**", "/image/**,", "/test/**")
 				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/auth/login_form")
 				.loginProcessingUrl("/auth/loginProc") // 뷰 단에 설정 주소와 일치만 하면 된다.
 				.defaultSuccessUrl("/");

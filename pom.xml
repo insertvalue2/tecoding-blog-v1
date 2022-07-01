@@ -38,6 +38,20 @@
 		  <groupId>javax.servlet</groupId>
 		  <artifactId>jstl</artifactId>
 		</dependency>
+		
+		<dependency>
+		    <groupId>com.navercorp.lucy</groupId>
+		    <artifactId>lucy-xss-servlet</artifactId>
+		    <version>2.0.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-text</artifactId>
+		    <version>1.8</version>
+		</dependency>
+				
 		<!-- 추가 라이브러리 종료  -->
 		
 	
@@ -93,6 +107,8 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+	
 		
 	</dependencies>
 
