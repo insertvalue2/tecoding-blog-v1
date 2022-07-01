@@ -32,6 +32,16 @@ public class BlogControllerTest {
 	public String xssTest(Board board) {
 		System.out.println("board : " + board);
 		
-		return "<h1>test</h1>";
+		return "<!DOCTYPE html>\r\n"
+				+ "<html>\r\n"
+				+ "<head>\r\n"
+				+ "<meta charset=\"UTF-8\">\r\n"
+				+ "<title>Insert title here</title>\r\n"
+				+ "</head>\r\n"
+				+ "<body>\r\n"
+				+ "\r\n"
+				+ board.getTitle()
+				+ "</body>\r\n"
+				+ "</html>";
 	}
 }

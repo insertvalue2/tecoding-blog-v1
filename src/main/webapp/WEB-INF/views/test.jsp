@@ -10,8 +10,8 @@
 </head>
 <body>
 	
-	<form action="/test"  method="get">
-		<input name="title" value ="'<img src="test" onmouseover="alert('??')"/>'">
+	<form action="/test/xssTest"  method="get">
+		<input name="title" value ="''">
 		<input name="content" value="xss 테스트 글입니다. <img src='test'>">
 		<button type="submit"> 등록 </button>
 	</form>

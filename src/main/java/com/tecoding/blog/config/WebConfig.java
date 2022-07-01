@@ -9,14 +9,14 @@ import com.navercorp.lucy.security.xss.servletfilter.XssEscapeServletFilter;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+	
+	  @Bean
+	    public FilterRegistrationBean<XssEscapeServletFilter> filterRegistrationBean() {
+	        FilterRegistrationBean<XssEscapeServletFilter> filterRegistration = new FilterRegistrationBean<>();
+	        filterRegistration.setFilter(new XssEscapeServletFilter());
+	        filterRegistration.setOrder(1);
+	        filterRegistration.addUrlPatterns("/*");
 
-    @Bean
-    public FilterRegistrationBean<XssEscapeServletFilter> filterRegistrationBean() {
-        FilterRegistrationBean<XssEscapeServletFilter> filterRegistration = new FilterRegistrationBean<>();
-        filterRegistration.setFilter(new XssEscapeServletFilter());
-        filterRegistration.setOrder(1);
-        filterRegistration.addUrlPatterns("/*");
-
-        return filterRegistration;
-    }
+	        return filterRegistration;
+	    }
 }

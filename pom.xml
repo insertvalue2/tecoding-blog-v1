@@ -45,13 +45,6 @@
 		    <version>2.0.0</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-text -->
-		<dependency>
-		    <groupId>org.apache.commons</groupId>
-		    <artifactId>commons-text</artifactId>
-		    <version>1.8</version>
-		</dependency>
-				
 		<!-- 추가 라이브러리 종료  -->
 		
 	
