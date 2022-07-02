@@ -1,7 +1,5 @@
 package com.tecoding.blog.service;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,12 +71,7 @@ public class BoardService  {
 		
 		return replyEntity;
 	}
-	
-//	@Transactional
-//	public void writeReply(ReplySaveRequestDto replySaveRequestDto) {
-//		int result = replyRepository.mSave(replySaveRequestDto.getUserId(), replySaveRequestDto.getBoardId(), replySaveRequestDto.getContent());
-//		System.out.println("BoardService : "+result);
-//	}
+
 	
 	@Transactional
 	public void deleteReplyById(int replyId) {
@@ -89,5 +82,7 @@ public class BoardService  {
 	public Page<Board> searchBoard(String searchValue, Pageable pageable) {
 		return boardRepository.findByTitleContaining(searchValue, pageable); 
 	}
+	
+
 	
 }

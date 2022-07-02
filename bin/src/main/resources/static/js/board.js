@@ -18,7 +18,7 @@ let index = {
 	},
 	save: function() {
 		let data = {
-			title:  $("#title").val(), 
+			title: $("#title").val(), 
 			content: $("#content").val(),
 		};
 		
@@ -128,16 +128,5 @@ function addReplyElement(reply) {
 	$("#reply--box").prepend(childElement);
 	$("#reply-content").val("");		
 }
-
-function XSSCheck(str, level) {
-    if (level == undefined || level == 0) {
-        str = str.replace(/\<|\>|\"|\'|\%|\;|\(|\)|\&|\+|\-/g,"");
-    } else if (level != undefined && level == 1) {
-        str = str.replace(/\</g, "&lt;");
-        str = str.replace(/\>/g, "&gt;");
-    }
-    return str;
-}
-
 
 index.init();

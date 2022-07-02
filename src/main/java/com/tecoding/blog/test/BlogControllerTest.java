@@ -1,8 +1,13 @@
 package com.tecoding.blog.test;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.tecoding.blog.model.Board;
+import com.tecoding.blog.repository.BoardRepository;
+import com.tecoding.blog.service.BoardService;
 
 
 /**
@@ -14,8 +19,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class BlogControllerTest {
 	
+	@Autowired
+	BoardService boardService;
+	
 	@GetMapping("/hello")
 	String hello() {
 		return "<h1>hello spring boot </h1>";
+	}
+	
+	
+	@GetMapping("/xssTest") 
+	public String xssTest(Board board) {
+		System.out.println("board : " + board);
+		
+		return "<!DOCTYPE html>\r\n"
+				+ "<html>\r\n"
+				+ "<head>\r\n"
+				+ "<meta charset=\"UTF-8\">\r\n"
+				+ "<title>Insert title here</title>\r\n"
+				+ "</head>\r\n"
+				+ "<body>\r\n"
+				+ "\r\n"
+				+ board.getTitle()
+				+ "</body>\r\n"
+				+ "</html>";
 	}
 }
