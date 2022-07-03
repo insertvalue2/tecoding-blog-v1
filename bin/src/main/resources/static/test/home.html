@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+	
+	
+</head>
+<body>
+	
+	<form action="/test/xssTest"  method="get">
+		<input name="title" value ="'<img src="test" onmouseover="alert('??')"/>'">
+		<input name="content" value="xss 테스트 글입니다. <img src='test'>">
+		<button type="submit"> 등록 </button>
+	</form>
+	
+</body>
+</html>

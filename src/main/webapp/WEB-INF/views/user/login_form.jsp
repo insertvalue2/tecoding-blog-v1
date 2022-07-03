@@ -8,7 +8,7 @@
 	<!--  form 반드시 key 값을 name 속성을 명시 해야 한다. -->
 	<!--  /auth/loginProc 주소는 마음대로 지정 가능 대신 필터에 사용한 주소와 일치 해야 한다. -->
 	<form action="/auth/loginProc" method="post">
-		
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<div class="form-group">
 			<label for="username">username:</label>
 			<input type="text" class="form-control" placeholder="Enter username" name="username" id="username" />

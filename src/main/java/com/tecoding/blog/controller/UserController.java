@@ -1,5 +1,8 @@
 package com.tecoding.blog.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -10,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -160,6 +164,17 @@ public class UserController {
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
+		return "redirect:/";
+	}
+	
+	// security 에 맡기지 말고 직접 처리해보자.  
+	//get 방식으로 받고 
+	@GetMapping("/logout")
+	public String logout(HttpServletRequest request, HttpServletResponse respnse) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(auth != null) {
+			new SecurityContextLogoutHandler().logout(request, respnse, auth);
+		}
 		return "redirect:/";
 	}
 

@@ -13,6 +13,10 @@
 		<title>tencoding</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta id="_csrf" name="${_csrf.parameterName}" content="${_csrf.token}"/>
+		<meta id="_csrf_header" name="_csrf_header" content="${_csrf.headerName}"/>
+
+		
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" />
 		<!-- slim 버전에서 $.ajax 를 사용할 수 없어 추가 선언  -->
 		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -47,6 +51,10 @@
 								<a class="nav-link" href="/user/update_form">회원정보</a>
 							</li>
 							<li class="nav-item">
+								<!-- 
+									CSRF가 활성화된 경우 로그아웃 요청도 기본적으로 POST여야 한다. 즉, POST "/logout"이 필요하다.
+									※ POST가 default인 이유? 사용자를 어플리케이션에서 강제로 로그아웃시키는 CSRF 공격을 방지하기 위함.
+								 -->
 								<a class="nav-link" href="/logout">로그아웃</a>
 							</li>
 						</c:otherwise>

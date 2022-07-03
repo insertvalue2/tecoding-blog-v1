@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.server.csrf.CookieServerCsrfTokenRepository;
 
 import com.tecoding.blog.auth.PricipalDetailService;
 
@@ -50,11 +52,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// /auth/login_form", "auth/join_form -> /auth/**
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable() // csrf 토큰 비활성화 (테스트시만 적용)
+		//http.csrf().disable() // csrf 토큰 비활성화 (테스트시만 적용)
+		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+		// .ignoringAntMatchers("/api/**") csrf 무시 하는 URI 적용 
+		.and()
 				.authorizeHttpRequests().antMatchers("/dummy/**", "/auth/**", "/", "/js/**", "/css/**", "/image/**", "/test/**")
 				.permitAll().anyRequest().authenticated().and().formLogin().loginPage("/auth/login_form")
 				.loginProcessingUrl("/auth/loginProc") // 뷰 단에 설정 주소와 일치만 하면 된다.
 				.defaultSuccessUrl("/");
+				
 		// .failureUrl(null);
 		// 스프링 시큐리티가 해당 주소로 요청이 오는 로그인을 가로채서 대신 로그인해 준다.
 		// 만들어야할 클래스가 있다. UserDetails type 에 Object를 만들어 줘야 한다.

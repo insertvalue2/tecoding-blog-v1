@@ -17,18 +17,31 @@ let index = {
 		});
 	},
 	save: function() {
+		
+		let token = $("meta[name='_csrf']").attr("content");
+		let header = $("meta[name='_csrf_header']").attr("content");
+		
+		
 		let data = {
 			title:  $("#title").val(), 
 			content: $("#content").val(),
 		};
 		
+		console.log("token  : " + token );
+		console.log("header  : " + header );
+		
 		$.ajax({
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token)
+			},
 			type: "POST", 
 			url: "/api/board",
 			data: JSON.stringify(data),  
-			contentType: "application/json; charset=utf-8", 
+			contentType: "application/json; charset=utf-8",
+			 
 			dataType: "json" 
-		}).done(function(data, textStatus, xhr) {
+		})
+		.done(function(data, textStatus, xhr) {
 			if(data.status)
 			alert("글쓰기가 완료 되었습니다");
 			location.href = "/";
