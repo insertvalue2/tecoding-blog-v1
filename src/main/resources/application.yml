@@ -6,7 +6,7 @@ server:
       charset: UTF-8
       enabled: true
       force: true
-    
+   
 spring:
   mvc:
     view:
@@ -41,6 +41,13 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+
+file:
+  path: C:/workspace_blog/springbootwork/upload/        
 
 
 tenco:

@@ -11,13 +11,13 @@
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<div class="form-group">
 			<label for="username">username:</label>
-			<input type="text" class="form-control" placeholder="Enter username" name="username" id="username" />
+			<input type="text" value="teco" class="form-control" placeholder="Enter username" name="username" id="username" />
 		</div>
 	
 			
 		<div class="form-group">
 			<label for="password">Password:</label>
-			<input type="password" class="form-control" placeholder="Enter password" name="password" id="password" />
+			<input type="password" value="asd123" class="form-control" placeholder="Enter password" name="password" id="password" />
 		</div>
 		
 		<div class="form-group form-check">
